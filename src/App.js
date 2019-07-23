@@ -17,7 +17,7 @@ const App = () => {
     /* BITCOIN */
     const coin = coins[0];
     const ticker = 'btc';
-    const datatype =
+    // const datatype =
 
     /* ETHEREUM */
     // const coin = coins[1];
