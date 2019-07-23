@@ -1,37 +1,14 @@
-import React, { Component } from 'react';
-import fetch from 'node-fetch';
+// this component will be a functional component that is meant to
+// purely render a single piece of data as an element in a row.
+// the piece of data will be passed down thru props from the row
+// parent component.
 
-class RowItem extends Component {
-    constructor(props) {
-        super(props);
+import React from 'react';
 
-        this.state = {
-            name: props.name,
-            data: null
-        }
-    }
-
-    componentDidMount() {
-        // construct the request
-        const base_url = "https://api.coincap.io/v2/",
-            resource = "assets/",
-            id = `${this.state.name}`;
-        const request_url = base_url + resource + id;
-        // now perform the fetch
-        fetch(request_url)
-            .then(resp => resp.json())
-            // get the relevant data array
-            .then(data => data.data)
-            .then(array => console.log(array));
-    }
-
-    render() {
-        return (
-            <div>
-                <h1>{this.state.data}</h1>
-            </div>
-        )
-    }
+const RowItem = (props) => {
+    return (
+        <h1>{props.datum}</h1>
+    )
 }
 
 export default RowItem;

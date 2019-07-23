@@ -1,37 +1,74 @@
-import React from 'react';
+/* the idea is to store the list of all crytopcurrencies by
+ * name & ticker in state at this level. then, each row will be
+ * built out by passing down pairs of (name, ticker) to a row
+ * subcomponent for each such currency. doing this in state allows
+ * for the dynamic nature of a changing list of currencies to be
+ * maintained & reflected in the app.
+ */
 
-import RowBadge from './components/RowBadge';
-import MiniChart from './components/MiniChart';
-import RowItem from './components/RowItem';
+import React, { Component } from 'react';
+import fetch from 'node-fetch';
 
-const App = () => {
-    const coin1 = 'bitcoin',
-        coin2 = 'ethereum',
-        coin3 = 'ripple',
-        coin4 = 'litecoin',
-        coin5 = 'bitcoin-cash';
-    const coins = [coin1, coin2, coin3, coin4, coin5];
+import Row from './components/Row';
 
-    // working examples (before applying map, just grab one)
+class App extends Component {
+    constructor(props) {
+        super(props);
 
-    /* BITCOIN */
-    const coin = coins[0];
-    const ticker = 'btc';
-    // const datatype =
+        this.state = {
+            list: [],
+            rendered: false
+        };
+    }
 
-    /* ETHEREUM */
-    // const coin = coins[1];
-    // const ticker = 'eth';
+    componentDidMount() {
+        // construct the request
+        const base_url = "https://api.coincap.io/v2/",
+            resource = 'assets';
+        const request_url = base_url + resource;
+        // now perform the fetch
+        fetch(request_url)
+            .then(resp => resp.json())
+            // extract the data array
+            .then(data => data.data)
+            // update state with list of all (id, name, ticker) tuples as objects
+            .then(array => array.map(item => {
+                return (
+                    {
+                        id: item.id,
+                        name: item.name,
+                        ticker: item.symbol
+                    }
+                );
+            }))
+            // update state
+            .then(array => this.setState({
+                list: array,
+                rendered: !this.state.rendered
+            }));
+    }
 
-    return (
-        <div className="App">
-            <RowBadge name={coin} ticker={ticker} />
-            <hr />
-            <MiniChart coin={coin} />
-            <hr />
-            <RowItem name={coin} />
-        </div>
-    )
+    render() {
+        if (this.state.rendered) {
+            // testing: get single coin from state
+            const coin = this.state.list[0];
+            return (
+                <div>
+                    <Row
+                        id={coin.id}
+                        name={coin.name}
+                        ticker={coin.ticker}
+                    />
+                </div>
+            )
+        } else {
+            // handles the initial case before state is populated
+            // with API response containing cryptocurrencies
+            return (
+                <div></div>
+            )
+        }
+    }
 }
 
 export default App;
