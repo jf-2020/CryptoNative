@@ -14,6 +14,8 @@ import RowBadge from './RowBadge';
 import MiniChart from './MiniChart';
 import RowItem from './RowItem';
 
+import '../styles/Row.css';
+
 class Row extends Component {
     constructor(props) {
         super(props);
@@ -59,7 +61,7 @@ class Row extends Component {
             }
 
             return (
-                <div>
+                <div className="row-div">
                     <RowBadge
                         name={this.state.name}
                         ticker={this.state.ticker}

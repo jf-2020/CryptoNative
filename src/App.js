@@ -50,15 +50,18 @@ class App extends Component {
 
     render() {
         if (this.state.rendered) {
-            // testing: get single coin from state
-            const coin = this.state.list[0];
             return (
                 <div>
-                    <Row
-                        id={coin.id}
-                        name={coin.name}
-                        ticker={coin.ticker}
-                    />
+                    {this.state.list.map((item) => (
+                        <>
+                            <Row
+                                id={item.id}
+                                name={item.name}
+                                ticker={item.ticker}
+                            />
+                            <hr />
+                        </>
+                    ))}
                 </div>
             )
         } else {

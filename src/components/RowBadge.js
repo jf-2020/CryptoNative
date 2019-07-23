@@ -2,7 +2,12 @@ import React from 'react';
 import '../styles/RowBadge.css';
 
 const RowBadge = (props) => {
-    const logo = require(`../../assets/icons/${props.ticker.toLowerCase()}.svg`);
+    let logo = require('../icons/error.svg');
+    try {
+        logo = require(`../icons/${props.ticker.toLowerCase()}.svg`);
+    } catch (e) {
+        console.log("error: ", e.message);
+    }
 
     return (
         <div className="flex-row-container">

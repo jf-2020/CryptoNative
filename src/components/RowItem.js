@@ -7,7 +7,7 @@ import React from 'react';
 
 const RowItem = (props) => {
     return (
-        <h1>{props.datum}</h1>
+        <h4>{props.datum}</h4>
     )
 }
 
